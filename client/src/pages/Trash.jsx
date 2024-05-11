@@ -3,7 +3,7 @@ import React from 'react'
 const Trash = () => {
   return (
     <div>
-      Trash
+      Trash file here all deleted file
     </div>
   )
 }
