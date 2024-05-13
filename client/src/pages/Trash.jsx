@@ -11,8 +11,8 @@ import { tasks } from "../assets/data";
 import Title from "../comonents/Title";
 import Button from "../comonents/Button";
 import { PRIOTITYSTYELS, TASK_TYPE } from "../utils";
-// import AddUser from "../comonents/AddUser";
-// import ConfirmatioDialog from "../comonents/Dialogs";
+// import AddUser from "../components/AddUser";
+import ConfirmatioDialog from "../comonents/Dialogs";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
@@ -139,7 +139,7 @@ const Trash = () => {
       </div>
 
       {/* <AddUser open={open} setOpen={setOpen} /> */}
-{/* 
+
       <ConfirmatioDialog
         open={openDialog}
         setOpen={setOpenDialog}
@@ -148,7 +148,7 @@ const Trash = () => {
         type={type}
         setType={setType}
         onClick={() => deleteRestoreHandler()}
-      /> */}
+      />
     </>
   );
 };
