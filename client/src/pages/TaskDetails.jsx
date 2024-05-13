@@ -312,5 +312,5 @@ const Activities = ({ activity, id }) => {
       </div>
     </div>
   );
-};
+}; 
 export default TaskDetails;
