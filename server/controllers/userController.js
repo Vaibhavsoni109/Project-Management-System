@@ -1,5 +1,6 @@
 
 import User from "../models/user.js";
+import Notice from "../models/notification .js";
 import { createJWT } from "../utils/index.js";
 
 export const registerUser =async(req,res)=>
@@ -62,7 +63,7 @@ export const registerUser =async(req,res)=>
                         }
             } catch (error) {
                 // console.log(error)
-                return res.status(400).json({status:false,message:"invailed user data"});
+                return res.status(400).json({status:false,message:error.message});
             }
         }
         
@@ -76,16 +77,67 @@ export const registerUser =async(req,res)=>
                 res.status(200).json({status:true,message:"user logged out"})
             } catch (error) {
                 // console.log(error)
-                return res.status(400).json({status:false,message:"invailed user data"});
+                return res.status(400).json({status:false,message:error.message});
             }
         }
 
+        export const getTeamList =async(req,res)=>
+            {
+                try {
+                    const users=await User.find().select("name title email isActive ");
+                    res.status(200).json(users);
+                } catch (error) {
+                    // console.log(error)
+                    return res.status(400).json({status:false,message:error.message});
+                }
+            }
+
+
+        export const getNotificationsList =async(req,res)=>
+            {
+                try {
+                    
+                    const {userId}=req.user;
+                    const notice=await Notice.findOne({
+                        team:userId,
+                        isRead:{$nin:[userId]},
+
+                    }).populate('task',"title");
+
+                    res.status(201).json(notice);
+                } catch (error) {
+                    // console.log(error)
+                    return res.status(400).json({status:false,message:error.message});
+                }
+            }
+
+        
+        export const updateUserProfile =async(req,res)=>
+            {
+                try {
+                    const {userid,isAdmin}=req.user;
+                    const {_id}=req.body;
+
+                    const id=isAdmin && userid=== _id ?userid: isAdmin && userId === _id?_id:userId ;
+
+                    const user=await User.findById(id)
+                    if(user)
+                        {
+                            user.name=req.body.name ||user.name;
+                        }
+
+                    
+                } catch (error) {
+                    // console.log(error)
+                    return res.status(400).json({status:false,message:error.message});
+                }
+            }
         // export const loginUser =async(req,res)=>
         //     {
         //         try {
                     
         //         } catch (error) {
         //             // console.log(error)
-        //             return res.status(400).json({status:false,message:"invailed user data"});
+        //             return res.status(400).json({status:false,message:error.message});
         //         }
         //     }
