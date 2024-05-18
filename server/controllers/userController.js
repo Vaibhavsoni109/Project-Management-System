@@ -124,6 +124,22 @@ export const registerUser =async(req,res)=>
                     if(user)
                         {
                             user.name=req.body.name ||user.name;
+                            user.title=req.body.title ||user.title;
+                            user.role=req.body.role ||user.role;
+                            
+                            const userUpdate=await User.Save();
+
+                            user.password=undefined;
+                            res.status(201).json({
+                                status:true,
+                                message:"User Profile Updated Successfully",
+                                user:userUpdate,
+                            })
+
+                            
+                        }
+                        else{
+                            res.status(404).json({status:false,message:"user not found"});
                         }
 
                     
@@ -132,7 +148,35 @@ export const registerUser =async(req,res)=>
                     return res.status(400).json({status:false,message:error.message});
                 }
             }
-        // export const loginUser =async(req,res)=>
+        export const markNotificationRead =async(req,res)=>
+            {
+                try {
+                    const{userId}=req.user;
+                    const {isReadType, id}=req.query;
+                    if(isReadType=='all'){
+                        await Notice.updateMany(
+                            {team:userId,isRead:{$nin:[userId]}},
+                        { $push :{isRead:userId} },
+                        {new:true}
+                       )
+                    }
+                    else {
+                        await Notice.findOneAndUpdate(
+                          { _id: id, isRead: { $nin: [userId] } },
+                          { $push: { isRead: userId } },
+                          { new: true }
+                        );
+                      }
+                      res.status(201).json({ status: true, message: "Done" });
+
+                    
+                } catch (error) {
+                    // console.log(error)
+                    return res.status(400).json({status:false,message:error.message});
+                }
+            }
+
+           // export const loginUser =async(req,res)=>
         //     {
         //         try {
                     

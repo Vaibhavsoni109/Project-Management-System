@@ -7,6 +7,7 @@ import {
  getTeamList,
  getNotificationsList,
  updateUserProfile,
+ markNotificationRead,
 
 } from "../controllers/userController.js";
 
@@ -22,7 +23,7 @@ router.get("/get-team", protectRoute, isAdminRoute, getTeamList);
 router.get("/notifications", protectRoute, getNotificationsList);
 
 router.put("/profile", protectRoute, updateUserProfile);
-// router.put("/read-noti", protectRoute, markNotificationRead);
+router.put("/read-noti", protectRoute, markNotificationRead);
 // router.put("/change-password", protectRoute, changeUserPassword);
 
 // // //   FOR ADMIN ONLY - ADMIN ROUTES
