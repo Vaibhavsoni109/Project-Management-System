@@ -5,7 +5,7 @@ import express from 'express'
 import morgan  from "morgan";
 import dbConnection from "./utils/index.js";
 import { erroHandler, routeNotFound } from "./middleware/errorMiddleware.js";
-const routes = " " ;
+import routes from "./routes/index.js";
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.use(express.json)
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser())
 app.use(morgan("dev"))
-// app.use('/api',routes);
+app.use('/api',routes);
 app.use(routeNotFound);
 app.use(erroHandler);
 app.get('/',(req,res)=>
