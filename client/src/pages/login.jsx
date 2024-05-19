@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sooner'
 import { useNavigate } from 'react-router-dom';
 import Textbox from '../comonents/Textbox';
 import Button from '../comonents/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLoginMutation } from '../redux/slices/authApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
+import Loading from '../comonents/Loader';
+
 
 
 const Login = () => {
@@ -14,11 +19,23 @@ const Login = () => {
      formState:{errors}
     }=useForm();
     const Navigate =useNavigate();
+const dispatch=useDispatch();
+    const[login,{isLoading}]=useLoginMutation();
     const submitHandler=async(data)=>{
-        console.log(user)
+        try {
+          const result= await login(data);
+          // const result = await login({ email: 'user', password: 'pass' }).unwrap();
+          // console.log(result)
+         await dispatch(setCredentials(result));
+          Navigate('/dashboard');
+        } catch (error) {
+          console.log(error)
+          toast.error(error?.data?.message||error.message)
+          
+        }
     }
     useEffect(()=>{
-      user && Navigate('/dashboard')
+      user && Navigate('/log-in')
     },[user])
   return (
    <>
@@ -84,11 +101,11 @@ const Login = () => {
                 Forget Password?
               </span>
 
-              <Button
+              {isLoading?<Loading/>:<Button
                 type='submit'
                 label='Submit'
                 className='w-full h-10 bg-blue-700 text-white rounded-full'
-              />
+              />}
             </div>
           </form>
         </div>
