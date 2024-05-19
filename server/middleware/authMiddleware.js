@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import user from "../models/user.js"
 const protectRoute = async (req, res, next) => {
     try {
-        let token = req.cookie.token;
+        let token = req.cookies.token;
         if (token) {
             const decodetoken = jwt.verify(token, process.env.JWT_SECRET);
             const resp = await User.findById(decodetoken.userId).select('isAdmin email')
@@ -11,6 +11,10 @@ const protectRoute = async (req, res, next) => {
                 isAdmin: resp.isAdmin,
                 userId: decodetoken.userId,
             }
+        }
+        else
+        {
+            return status(401).json({status:false,message:"not authorizes try agin later"})
         }
 
     } catch (error) {
