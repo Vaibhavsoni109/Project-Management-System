@@ -6,9 +6,12 @@ import Task from "../models/task.js";
 
 export const createTask = async (req, res) => {
     try {
-      const { userId } = req.user;
+      const { userid } = req.user;
+      console.log(userid);
 
-      const { title, team, stage, date, priority, assets } = req.body;
+      const { title, team, stage, date, priority,assets} = req.body;
+
+      console.log( title, team, stage, date, priority,assets)
   
       let text = "New task has been assigned to you";
       if (team?.length > 1) {
@@ -24,24 +27,25 @@ export const createTask = async (req, res) => {
       const activity = {
         type: "assigned",
         activity: text,
-        by: userId,
+        by: userid,
       };
-  
+  console.log(activity)
       const task = await Task.create({
         title,
         team,
         stage: stage.toLowerCase(),
-        date,
         priority: priority.toLowerCase(),
+        date,
         assets,
-        activities: activity,
+        activities: activity.type,
       });
+      console.log(task)
   
-      await Notice.create({
-        team,
-        text,
-        task: task._id,
-      });
+      // await Notice.create({
+      //   team,
+      //   text,
+      //   task: task._id,
+      // });
   
       res
         .status(200)
