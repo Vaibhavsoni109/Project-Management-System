@@ -6,7 +6,7 @@ import { summary } from "../assets/data";
 import { getInitials } from "../utils";
 import clsx from "clsx";
 import ConfirmatioDialog, { UserAction } from "../comonents/Dialogs";
-// import AddUser from "../comonents/AddUser";
+import AddUser from "../comonents/AddUser";
 
 const Users = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -113,12 +113,12 @@ const Users = () => {
         </div>
       </div>
 
-      {/* <AddUser
+      <AddUser
         open={open}
         setOpen={setOpen}
         userData={selected}
         key={new Date().getTime().toString()}
-      /> */}
+      />
 
       <ConfirmatioDialog
         open={openDialog}

@@ -11,7 +11,7 @@ export const createTask = async (req, res) => {
 
       const { title, team, stage, date, priority,assets} = req.body;
 
-      console.log( title, team, stage, date, priority,assets)
+      // console.log( title, team, stage, date, priority,assets)
   
       let text = "New task has been assigned to you";
       if (team?.length > 1) {
@@ -41,11 +41,11 @@ export const createTask = async (req, res) => {
       });
       console.log(task)
   
-      // await Notice.create({
-      //   team,
-      //   text,
-      //   task: task._id,
-      // });
+      await Notice.create({
+        team,
+        text,
+        task: task._id,
+      });
   
       res
         .status(200)
