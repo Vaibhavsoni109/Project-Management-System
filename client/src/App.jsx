@@ -14,15 +14,12 @@ import clsx from "clsx";
 import { Fragment, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { setOpenSidebar } from "./redux/slices/authSlice";
-
-
-
-// import {Toaster} from "sooner"
+import {Toaster} from "sooner"
 
 
 function Layout() {
-  const users = useSelector((state) => state.auth);
-  const location = useLocation();
+  // const location = useLocation();
+  const users = useSelector((state) => state.auth.user);
 
   return users ? (
     <div className='w-full h-screen flex flex-col md:flex-row' >
@@ -44,7 +41,7 @@ function Layout() {
   )
 }
 const MobileSidebar = () => {
-  const { isSidebarOpen } = useSelector((state) => state.auth);
+  const { isSidebarOpen } = useSelector((state) => state.auth    );
   const mobileMenuRef = useRef(null);
   const dispatch = useDispatch();
 

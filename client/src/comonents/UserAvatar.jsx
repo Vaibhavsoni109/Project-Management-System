@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getInitials } from "../utils";
 import { useLogoutMutation } from "../redux/slices/authApiSlice";
-import { logout } from "../redux/slices/authSlice";
+// import { logout } from "../redux/slices/authSlice";
+import { toast } from "sooner";
+
 
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
   const [openPassword, setOpenPassword] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 const [logout]=useLogoutMutation();
@@ -20,10 +22,12 @@ const [logout]=useLogoutMutation();
       await logout().unwrap();
       
       navigate('/log-in');
+      // console.log(localStorage.userinfo.data.isAdmin);
       // dispatch(logout());
       localStorage.clear();
     } catch (error) {
-      toast.error("something went wrong");
+      // toast.err("something went wrong");
+      console.log("error")
     }
   };
 

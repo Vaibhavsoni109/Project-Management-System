@@ -12,7 +12,7 @@ import { toast } from "sooner";
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth.user);
 
   
   const  isUpdating = false;

@@ -6,7 +6,7 @@ import UserAvatar from "./UserAvatar";
 import NotificationPanel from "./NotificationPanel";
 
 const Navbar = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   return (

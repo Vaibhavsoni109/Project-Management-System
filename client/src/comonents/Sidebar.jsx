@@ -51,16 +51,18 @@ const linkData = [
 ];
 
 const Sidebar = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
   const path = location.pathname.split("/")[1];
 
-  const sidebarLinks = user.isAdmim?linkData : linkData.slice(0, 5);
+  const sidebarLinks = user ?.isAdmin ? linkData : linkData.slice(0, 7);
+  
 
   const closeSidebar = () => {
+    // console.log(user
     dispatch(setOpenSidebar(false));
   };
 
