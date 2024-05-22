@@ -8,6 +8,7 @@ import { getInitials } from "../utils";
 import { useLogoutMutation } from "../redux/slices/authApiSlice";
 // import { logout } from "../redux/slices/authSlice";
 import { toast } from "sooner";
+import AddUser from "./AddUser";
 
 
 const UserAvatar = () => {
@@ -94,7 +95,9 @@ const [logout]=useLogoutMutation();
           </Transition>
         </Menu>
       </div>
-    </>
+      <AddUser open={open} setOpen={setOpen} userData={user}/>
+      <ChangePassword open={openPassword} setOpen={setOpenPassword}/>
+          </>
   );
 };
 
