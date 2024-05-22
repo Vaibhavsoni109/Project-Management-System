@@ -12,7 +12,7 @@ import Loading from '../comonents/Loader';
 
 
 const Login = () => {
-  const {user}=useSelector((state)=> state.auth.user);
+  const {user}=useSelector((state)=> state.auth);
   const {
     register,
      handleSubmit,

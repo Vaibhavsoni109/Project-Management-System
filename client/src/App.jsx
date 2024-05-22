@@ -19,12 +19,12 @@ import {Toaster} from "sooner"
 
 function Layout() {
   // const location = useLocation();
-  const users = useSelector((state) => state.auth.user);
+  const {user} = useSelector((state) => state.auth);
 
-  return users ? (
+  return user ? (
     <div className='w-full h-screen flex flex-col md:flex-row' >
       <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block'>
-        <Sidebar />
+        <Sidebar/>
 
       </div>
       <MobileSidebar/>
@@ -41,7 +41,7 @@ function Layout() {
   )
 }
 const MobileSidebar = () => {
-  const { isSidebarOpen } = useSelector((state) => state.auth    );
+  const { isSidebarOpen } = useSelector((state) => state.auth );
   const mobileMenuRef = useRef(null);
   const dispatch = useDispatch();
 
