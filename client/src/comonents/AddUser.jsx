@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalWrapper from "./ModalWrapper";
 import { Dialog } from "@headlessui/react";
 import Textbox from "./Textbox";
@@ -8,42 +8,46 @@ import Loading from "./Loader";
 import Button from "./Button";
 import { useRegisterMutation } from "../redux/slices/authApiSlice";
 import { toast } from "sooner";
+import { useUpdateUserMutation } from "../redux/slices/userApiSlice";
+import { setCredentials } from "../redux/slices/authSlice";
 
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};
   const { user } = useSelector((state) => state.auth);
-
-  
-  const  isUpdating = false;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
-   
-const [addNewUser,{isLoading}]=useRegisterMutation();
+  const dispatch = useDispatch();
+  const [addNewUser, { isLoading }] = useRegisterMutation();
+  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
 
-  const handleOnSubmit = async(data) => {
-try {
-  if(userData)
-    {
+  const handleOnSubmit = async (data) => {
+    try {
+      if (userData) {
+        const result = await updateUser(data).unwrap();
+        //  toast.success(result?.message);
+
+        if (userData?._id === user._id) {
+          dispatch(setCredentials({ ...result.user }))
+        }
+
+      }
+      else {
+        const result = await addNewUser({ ...data, password: data.email }).unwrap();
+        // toast.success("new user added succesfully");
+      }
+
+      setTimeout(() => {
+        setOpen(false)
+      }, 1500)
+    } catch (error) {
+      // toast.error("somethig went wrong")
+      console.log("something went wrong");
 
     }
-    else{
-      const result=await addNewUser({...data,password:data.email}).unwrap();
-      toast.success("new user added succesfully");
-    }
-
-    setTimeout(()=>
-    {
-      setOpen(false)
-    },1500)
-} catch (error) {
-  toast.error("somethig went wrong")
-
-}
 
   };
 

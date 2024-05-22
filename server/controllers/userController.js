@@ -87,7 +87,7 @@ export const logoutUser = async (req, res) => {
 
 export const getTeamList = async (req, res) => {
     try {
-        const users = await User.find().select("name title email isActive ");
+        const users = await User.find().select("name title email role isActive ");
         res.status(200).json(users);
     } catch (error) {
         // console.log(error)
@@ -116,10 +116,15 @@ export const getNotificationsList = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
     try {
-        const { userid, isAdmin } = req.user;
+        const { userId, isAdmin } = req.user;
         const { _id } = req.body;
 
-        const id = isAdmin && userid === _id ? userid : isAdmin && userId === _id ? _id : userId;
+        // const id = isAdmin && userid === _id ? userid : isAdmin && userid === _id ? _id : userid;
+       const id= isAdmin && userId === _id
+        ? userId
+        : isAdmin && userId !== _id
+        ? _id
+        : userId;
 
         const user = await User.findById(id)
         if (user) {
@@ -127,7 +132,7 @@ export const updateUserProfile = async (req, res) => {
             user.title = req.body.title || user.title;
             user.role = req.body.role || user.role;
 
-            const userUpdate = await User.Save();
+            const userUpdate = await user.save();
 
             user.password = undefined;
             res.status(201).json({

@@ -2,20 +2,62 @@ import React, { useState } from "react";
 import Title from "../comonents/Title";
 import Button from "../comonents/Button";
 import { IoMdAdd } from "react-icons/io";
-import { summary } from "../assets/data";
+// import { summary } from "../assets/data";
 import { getInitials } from "../utils";
 import clsx from "clsx";
-import ConfirmatioDialog, { UserAction } from "../comonents/Dialogs";
+import ConfirmatioDialog from "../comonents/Dialogs";
+// import {UserAction} from "../comonents/Dialogs";
+import UserAction1 from "../comonents/UserAction1";
 import AddUser from "../comonents/AddUser";
+import { useDeleteUserMutation, useGetTeamListQuery, useUserActionMutation } from "../redux/slices/userApiSlice";
 
 const Users = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [openAction, setOpenAction] = useState(false);
   const [selected, setSelected] = useState(null);
+  const {data,isLoading, refetch}=useGetTeamListQuery();
 
-  const userActionHandler = () => {};
-  const deleteHandler = () => {};
+console.log(data)
+  
+const [deleteUser]=useDeleteUserMutation();
+
+const [UserAction]=useUserActionMutation();
+  const userActionHandler = async() => {
+    try {
+      const result=await UserAction({
+        isActive: !selected?.isActive,
+        id:selected?._id
+      })
+      refetch();
+      // console.log(result.data.msg);
+
+      setSelected(null)
+      setTimeout(() => {
+        setOpenAction(false);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteHandler = async() => {
+    try {
+      const result=await deleteUser(selected)
+
+      refetch();
+      setSelected(null);
+      setTimeout(() => {
+        setOpenDialog(false);
+      }, 500);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  const userStatusClick=(el)=>
+    {
+setSelected(el);
+setOpenAction(true)
+    }
 
   const deleteClick = (id) => {
     setSelected(id);
@@ -53,12 +95,12 @@ const Users = () => {
       </td>
 
       <td className='p-2'>{user.title}</td>
-      <td className='p-2'>{user.email || "user.emal.com"}</td>
+      <td className='p-2'>{user.email || "user.email.com"}</td>
       <td className='p-2'>{user.role}</td>
 
       <td>
         <button
-          // onClick={() => userStatusClick(user)}
+          onClick={() => userStatusClick(user)}
           className={clsx(
             "w-fit px-4 py-1 rounded-full",
             user?.isActive ? "bg-blue-200" : "bg-yellow-100"
@@ -104,7 +146,7 @@ const Users = () => {
             <table className='w-full mb-5'>
               <TableHeader />
               <tbody>
-                {summary.users?.map((user, index) => (
+                {data?.map((user, index) => (
                   <TableRow key={index} user={user} />
                 ))}
               </tbody>
@@ -112,6 +154,7 @@ const Users = () => {
           </div>
         </div>
       </div>
+      
 
       <AddUser
         open={open}
@@ -126,11 +169,18 @@ const Users = () => {
         onClick={deleteHandler}
       />
 
-      <UserAction
-        open={openAction}
-        setOpen={setOpenAction}
-        onClick={userActionHandler}
-      />
+   {/* <UserAction
+   
+   /> */}
+   <UserAction1
+    open={openAction}
+    setOpen={setOpenAction}
+    onClick={userActionHandler}
+   />
+  
+      
+
+   
     </>
   );
 };
