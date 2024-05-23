@@ -4,7 +4,7 @@ const taskShema = new Schema({
     title: { type: String, Required: true },
     date: { type: Date, default: new Date() },
     priority: { type: String, enum: ["high", "medium", "normal", "low"], default: "normal" },
-    Stage: { type: String, enum: ["todo", "In Progress", "completed"], default: "todo" },
+    stage: { type: String, enum: ["todo", "in progress", "completed"], default: "todo" },
     activities: { type: String, enum: ["assigned", "started", "In Progress", "bug", "completed", "commented"], default: "assigned" },
     activity: {
         type: String,

@@ -14,6 +14,8 @@ import clsx from "clsx";
 import { Chart } from "../comonents/Chart";
 import { BGS, PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import UserInfo from "../comonents/UserInfo";
+import { useGetDashboardStatsQuery } from "../redux/slices/taskApiSlice";
+import Loading from "../comonents/Loader";
 
 const TaskTable = ({ tasks }) => {
   const ICONS = {
@@ -146,18 +148,30 @@ const UserTable = ({ users }) => {
   );
 };
 const Dashboard = () => {
-  const totals = summary.tasks;
+  const {data,isloading}=useGetDashboardStatsQuery();
+if(isloading)
+return(
+  <div className="py-10">
+    <Loading/>
+  </div>
+)
+
+const totals = data?.tasks || {};
+console.log(data)
+console.log(data.last10Task)
+
+
 
   const stats = [
     {
       _id: "1",
       label: "TOTAL TASK",
-      total: summary?.totalTasks || 0,
+      total: data?.totalTasks || 0,
       icon: <FaNewspaper />,
       bg: "bg-[#1d4ed8]",
     },
     {
-      _id: "2",
+      _id: data?.tasks._id,
       label: "COMPLTED TASK",
       total: totals["completed"] || 0,
       icon: <MdAdminPanelSettings />,
@@ -173,9 +187,9 @@ const Dashboard = () => {
     {
       _id: "4",
       label: "TODOS",
-      total: totals["todo"],
+      total: totals["todo"] || 0,
       icon: <FaArrowsToDot />,
-      bg: "bg-[#be185d]" || 0,
+      bg: "bg-[#be185d]" ,
     },
   ];
 
@@ -211,17 +225,18 @@ const Dashboard = () => {
         <h4 className='text-xl text-gray-600 font-semibold'>
           Chart by Priority
         </h4>
-        <Chart />
+        <Chart data={data?.graphData}/>
       </div>
 
       <div className='w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8'>
         {/* /left */}
 
-        <TaskTable tasks={summary.last10Task} />
+        <TaskTable tasks={data.last10Task} />
+        
 
         {/* /right */}
 
-        <UserTable users={summary.users} />
+        <UserTable users={data.users} />
       </div>
     </div>
   );

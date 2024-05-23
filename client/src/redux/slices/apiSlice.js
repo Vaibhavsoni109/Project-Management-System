@@ -4,9 +4,9 @@ const API_URI = import.meta.env.VITE_APP_BASE_URL;
 // const API_URI = "http://localhost:8800/api";
 
 const baseQuery = fetchBaseQuery({ baseUrl: API_URI + "/api" });
-
 export const apiSlice = createApi({
   baseQuery,
   tagTypes: [],
   endpoints: (builder) => ({}),
+  
 });

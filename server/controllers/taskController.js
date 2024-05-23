@@ -2,6 +2,7 @@
 import Notice from "../models/notification .js";
 import { createJWT } from "../utils/index.js";
 import Task from "../models/task.js";
+import User from "../models/user.js";
 
 
 export const createTask = async (req, res) => {
