@@ -42,36 +42,43 @@ export const registerUser = async (req, res) => {
     }}
 
 
-export const loginUser = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (!user) {
-            res.status(401).json({ status: false, message: "invailid user name" })
-        }
-        if (!user?.isActive) {
+    export const loginUser = async (req, res) => {
+        try {
+          const { email, password } = req.body;
+      
+          const user = await User.findOne({ email });
+      
+          if (!user) {
+            return res
+              .status(401)
+              .json({ status: false, message: "Invalid email or password." });
+          }
+      
+          if (!user?.isActive) {
             return res.status(401).json({
-                status: false,
-                message: "user account has been deactivavte plz contact the administrator"
-            })
-        }
-
-        const isMatch = await user.matchPassword(password);
-        if (user && isMatch) {
-            createJWT(res, user._id)
+              status: false,
+              message: "User account has been deactivated, contact the administrator",
+            });
+          }
+      
+          const isMatch = await user.matchPassword(password);
+      
+          if (user && isMatch) {
+            createJWT(res, user._id);
+      
             user.password = undefined;
-
+      
             res.status(200).json(user);
+          } else {
+            return res
+              .status(401)
+              .json({ status: false, message: "Invalid email or password" });
+          }
+        } catch (error) {
+          console.log(error);
+          return res.status(400).json({ status: false, message: error.message });
         }
-        else {
-            return res.status(401).json({ status: false, message: "invaild email or oassword" });
-        }
-    } catch (error) {
-        console.log(error)
-        return res.status(400).json({ status: false, message: error.message });
-    }
-}
-
+      };
 export const logoutUser = async (req, res) => {
     try {
         res.cookie("token", "", {
@@ -182,21 +189,29 @@ export const markNotificationRead = async (req, res) => {
 
 export const changeUserPassword = async (req, res) => {
     try {
-        const { userId } = req.user;
-        const user = await findById(userId);
-
-        if (user) {
-            user.password = req.body.password;
-            await user.save();
-            user.password = undefined;
-            res.status(201).json({ status: true, message: "password  change succesfully" });
-        }
-
+      const { userId } = req.user;
+  
+      const user = await User.findById(userId);
+  
+      if (user) {
+        user.password = req.body.password;
+  
+        await user.save();
+  
+        user.password = undefined;
+  
+        res.status(201).json({
+          status: true,
+          message: `Password chnaged successfully.`,
+        });
+      } else {
+        res.status(404).json({ status: false, message: "User not found" });
+      }
     } catch (error) {
-        // console.log(error)
-        return res.status(400).json({ status: false, message: error.message });
+      console.log(error);
+      return res.status(400).json({ status: false, message: error.message });
     }
-}
+  };
 
 export const activateUserProfile = async (req, res) => {
     try {

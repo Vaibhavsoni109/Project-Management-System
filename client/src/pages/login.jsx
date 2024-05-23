@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sooner'
 import { useNavigate } from 'react-router-dom';
 import Textbox from '../comonents/Textbox';
 import Button from '../comonents/Button';
@@ -8,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../redux/slices/authApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import Loading from '../comonents/Loader';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -23,7 +24,7 @@ const dispatch=useDispatch();
     const[login,{isLoading}]=useLoginMutation();
     const submitHandler=async(data)=>{
         try {
-          const result= await login(data);
+          const result= await login(data).unwrap();
           // const result = await login({ email: 'user', password: 'pass' }).unwrap();
           // console.log(result)
          await dispatch(setCredentials(result));
