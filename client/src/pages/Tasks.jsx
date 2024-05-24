@@ -12,6 +12,7 @@ import BoardView from "../comonents/BoardView";
 import { tasks } from "../assets/data";
 import Table from "../comonents/task/Table";
 import AddTask from "../comonents/task/AddTask";
+import { useGetAllTaskQuery } from "../redux/slices/taskApiSlice";
 
 const TABS = [
   { title: "Board View", icon: <MdGridView /> },
@@ -26,14 +27,22 @@ const TASK_TYPE = {
 
 const Tasks = () => {
   const params = useParams();
-
+  
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  
   const status = params?.status || "";
+//   const {data,isLoading}=useGetAllTaskQuery({
+//  stage:status,
+//  isTrashed: "",
+//  search:" " 
 
-  return loading ? (
+//   });
+const {data,isLoading}=useGetAllTaskQuery();
+  console.log(data)
+
+  return isLoading ? (
     <div className='py-10'>
       <Loading />
     </div>
@@ -65,15 +74,15 @@ const Tasks = () => {
         )}
 
         {selected !== 1 ? (
-          <BoardView tasks={tasks} />
+          <BoardView tasks={data?.tasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={tasks} />
+            <Table tasks={data?.tasks} />
           </div>
         )}
       </Tabs>
 
-      <AddTask open={open} setOpen={setOpen} />
+      <AddTask open={open} setOpen={setOpen} task={tasks} />
     </div>
   );
 };

@@ -5,22 +5,25 @@ import { summary } from "../../assets/data";
 import clsx from "clsx";
 import { getInitials } from "../../utils";
 import { MdCheck } from "react-icons/md";
+import { useGetTeamListQuery } from "../../redux/slices/userApiSlice";
 
 const UserList = ({ setTeam, team }) => {
-  const data = summary.users;
+  // const data = summary.users;
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const {data, isLoading}=useGetTeamListQuery();
 
   const handleChange = (el) => {
     setSelectedUsers(el);
     setTeam(el?.map((u) => u._id));
   };
+
   useEffect(() => {
     if (team?.length < 1) {
       data && setSelectedUsers([data[0]]);
     } else {
       setSelectedUsers(team);
     }
-  }, []);
+  }, [isLoading]);
 
   return (
     <div>

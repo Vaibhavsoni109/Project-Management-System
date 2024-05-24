@@ -70,8 +70,6 @@ export const duplicateTask = async (req, res) => {
             ...task,title:task.title +"Duplicate"
         })
 
-        newTask.team=task.team
-
         newTask.team = task.team;
         newTask.subTasks = task.subTasks;
         newTask.assets = task.assets;
@@ -248,6 +246,7 @@ export const createSubTask = async (req, res) => {
     try {
         const { title, tag, date } = req.body;
 
+        console.log(req.params);
     const { id } = req.params;
 
     const newSubTask = {

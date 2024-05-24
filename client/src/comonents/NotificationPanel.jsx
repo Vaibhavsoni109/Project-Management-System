@@ -63,10 +63,13 @@ const NotificationPanel = () => {
     await markAsRead({type,id}).unwrap();
     refetch();
   };
+ 
+
   const viewHandler = async(el) => {
  setSelected(el);
- readHandler("one",el.id)
+ readHandler("one",el._id)
  setOpen(true);
+ console.log(data);
   };
 
   const callsToAction = [
@@ -75,7 +78,7 @@ const NotificationPanel = () => {
       name: "Mark All Read",
       href: "#",
       icon: "",
-      onClick: () => readHandler("all", ""),
+      onClick: () => readHandler("all", " "),
     },
   ];
 
@@ -112,13 +115,14 @@ const NotificationPanel = () => {
                         key={item._id + index}
                         className='group relative flex gap-x-4 rounded-lg p-4 hover:bg-gray-50'
                       >
-                        <div className='mt-1 h-8 w-8 flex items-center justify-center rounded-lg bg-gray-200 group-hover:bg-white'>
+                        <div className='mt-1 h-8 w-8 flex items-center justify-center rounded-lg bg-gray-200 group-hover:bg-white '  
+                          >
                           {ICONS[item.notiType]}
                         </div>
 
                         <div
-                          className='cursor-pointer'
-                          onClick={() => viewHandler(item)}
+                        //  className="cursor-pointer"
+                         onClick={() => viewHandler(item)}
                         >
                           <div className='flex items-center gap-3 font-semibold text-gray-900 capitalize'>
                             <p> {item.notiType}</p>
