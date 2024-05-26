@@ -14,11 +14,15 @@ import clsx from "clsx";
 import { Fragment, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { setOpenSidebar } from "./redux/slices/authSlice";
-import {Toaster} from "sooner"
+// import {Toaster} from "sooner"
+import Darkmode from 'darkmode-js';
 
 
 function Layout() {
+  
   // const location = useLocation();
+
+
   const {user} = useSelector((state) => state.auth);
 
   return user ? (
@@ -93,6 +97,7 @@ const MobileSidebar = () => {
 
 
 function App() {
+  new Darkmode().showWidget();
 
   return <main className='w-full min-h-screen bg-[#f3f4f6]'>
     <Routes>   

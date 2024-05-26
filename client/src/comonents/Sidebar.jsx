@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { setOpenSidebar } from "../redux/slices/authSlice";
 import clsx from "clsx";
+import { useGetTeamListQuery } from "../redux/slices/userApiSlice";
+import Darkmode from 'darkmode-js';
 
 const linkData = [
   {
@@ -51,7 +53,11 @@ const linkData = [
 ];
 
 const Sidebar = () => {
+  new Darkmode().showWidget();
+
   const { user } = useSelector((state) => state.auth);
+  const {data}=useGetTeamListQuery();
+  console.log(data)
 
   const dispatch = useDispatch();
   const location = useLocation();

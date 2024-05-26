@@ -154,7 +154,6 @@ const Table = ({ tasks }) => {
         </div>
       </div>
 
-      {/* TODO */}
       <ConfirmatioDialog
         open={openDialog}
         setOpen={setOpenDialog}
