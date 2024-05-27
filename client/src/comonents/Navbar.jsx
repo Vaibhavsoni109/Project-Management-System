@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOpenSidebar } from "../redux/slices/authSlice";
 import UserAvatar from "./UserAvatar";
 import NotificationPanel from "./NotificationPanel";
-import Darkmode from 'darkmode-js';
+// import Darkmode from 'darkmode-js';
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  new Darkmode().showWidget();
+  // new Darkmode().showWidget();
 
   return (
-    <div className='flex justify-between items-center bg-white px-4 py-3 2xl:py-4 sticky z-10 top-0'>
+    <div className='flex justify-between items-center bg-white px-4 py-3 2xl:py-4 sticky z-10  top-0'>
       <div className='flex gap-4'>
         <button
           onClick={() => dispatch(setOpenSidebar(true))}

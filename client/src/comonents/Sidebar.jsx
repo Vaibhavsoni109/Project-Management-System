@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { setOpenSidebar } from "../redux/slices/authSlice";
 import clsx from "clsx";
 import { useGetTeamListQuery } from "../redux/slices/userApiSlice";
-import Darkmode from 'darkmode-js';
+// import Darkmode from 'darkmode-js';
 
 const linkData = [
   {
@@ -53,7 +53,7 @@ const linkData = [
 ];
 
 const Sidebar = () => {
-  new Darkmode().showWidget();
+  // new Darkmode().showWidget();
 
   const { user } = useSelector((state) => state.auth);
   const {data}=useGetTeamListQuery();
@@ -78,7 +78,7 @@ const Sidebar = () => {
         to={el.link}
         onClick={closeSidebar}
         className={clsx(
-          "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]",
+          " w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]",
           path === el.link.split("/")[0] ? "bg-blue-700 text-neutral-100" : ""
         )}
       >
@@ -88,7 +88,7 @@ const Sidebar = () => {
     );
   };
   return (
-    <div className='w-full  h-full flex flex-col gap-6 p-5'>
+    <div className='w-full  h-full flex flex-col gap-6 p-5 '>
       <h1 className='flex gap-1 items-center'>
         <p className='bg-blue-600 p-2 rounded-full'>
           <MdOutlineAddTask className='text-white text-2xl font-black' />
