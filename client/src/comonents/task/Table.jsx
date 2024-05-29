@@ -16,6 +16,7 @@ import Button from "../Button";
 import ConfirmatioDialog from "../Dialogs";
 import { useTrashTaskMutation } from "../../redux/slices/taskApiSlice";
 import { toast } from "react-toastify";
+import AddTask from "./AddTask";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
@@ -23,27 +24,35 @@ const ICONS = {
   low: <MdKeyboardArrowDown />,
 };
 
-const Table = ({ tasks }) => {
+const  Table = ({ tasks }) => {
+  console.log({tasks})
   const [openDialog, setOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
-  const{deleteTask}=useTrashTaskMutation();
+  const { deleteTask } = useTrashTaskMutation();
+  const [openEdit, setOpenEdit] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const editTaskHandler = (el) => {
+    setSelected(el)
+    setOpenEdit(ture);
+  }
 
   const deleteClicks = (id) => {
     setSelected(id);
     setOpenDialog(true);
   };
 
-  const deleteHandler = async() => {
+  const deleteHandler = async () => {
     try {
-      const res=await deleteTask({
-        id:selected,
-        isTrash:'trash',
+      const res = await deleteTask({
+        id: selected,
+        isTrash: 'trash',
       }).unwrap();
-    
+
     } catch (err) {
       console.log(err);
       toast.error(err.error);
-      
+
     }
   };
 
@@ -59,7 +68,7 @@ const Table = ({ tasks }) => {
     </thead>
   );
 
-  const TableRow = ({ task }) => (
+  const  TableRow = ({ task }) => (
     <tr className='border-b border-gray-200 text-gray-600 hover:bg-gray-300/10'>
       <td className='py-2'>
         <div className='flex items-center gap-2'>
@@ -127,7 +136,7 @@ const Table = ({ tasks }) => {
           className='text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base'
           label='Edit'
           type='button'
-          onClick={() => editClicks(task._id)}
+          onClick={() => editTaskHandler(task)}
         />
 
         <Button
@@ -146,7 +155,7 @@ const Table = ({ tasks }) => {
           <table className='w-full '>
             <TableHeader />
             <tbody>
-              {tasks.map((task, index) => (
+              {tasks && tasks.map((task, index) => (
                 <TableRow key={index} task={task} />
               ))}
             </tbody>
@@ -159,6 +168,13 @@ const Table = ({ tasks }) => {
         setOpen={setOpenDialog}
         onClick={deleteHandler}
       />
+
+      {/* <AddTask
+        open={openEdit}
+        setOpen={setOpenEdit}
+        task={selected}
+        key={new Date().getTime()}
+      /> */}
     </>
   );
 };

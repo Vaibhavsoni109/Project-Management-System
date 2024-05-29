@@ -110,7 +110,7 @@ const NotificationPanel = () => {
               data?.length > 0 && (
                 <div className='w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5'>
                   <div className='p-4'>
-                    {data?.slice(0, 5).map((item, index) => (
+                    {data?.slice(0, 4).map((item, index) => (
                       <div
                         key={item._id + index}
                         className='group relative flex gap-x-4 rounded-lg p-4 hover:bg-gray-50'

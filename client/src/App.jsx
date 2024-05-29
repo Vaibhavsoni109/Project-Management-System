@@ -102,9 +102,9 @@ function App() {
     darkmode.showWidget();
 
     // Example of programmatically toggling dark mode after 3 seconds
-    setTimeout(() => {
-      darkmode.toggle();
-    }, 3000);
+    // setTimeout(() => {
+    //   darkmode.toggle();
+    // }, 3000);
   }, []);
 
   return <main className='w-full min-h-screen bg-[#f3f4f6]'>

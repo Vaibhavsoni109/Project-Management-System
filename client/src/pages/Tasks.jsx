@@ -10,7 +10,7 @@ import Tabs from "../comonents/Tabs";
 import TaskTitle from "../comonents/TaskTitle";
 import BoardView from "../comonents/BoardView";
 import { tasks } from "../assets/data";
-import Table from "../comonents/task/Table";
+import Table from "../comonents/task/Table"
 import AddTask from "../comonents/task/AddTask";
 import { useGetAllTaskQuery } from "../redux/slices/taskApiSlice";
 
@@ -21,26 +21,26 @@ const TABS = [
 
 const TASK_TYPE = {
   todo: "bg-blue-600",
-  "in progress": "bg-yellow-600",
+  inProgress: "bg-yellow-600",
   completed: "bg-green-600",
 };
 
 const Tasks = () => {
   const params = useParams();
-  
+
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  
-  const status = params?.status || "";
-//   const {data,isLoading}=useGetAllTaskQuery({
-//  stage:status,
-//  isTrashed: "",
-//  search:" " 
 
-//   });
-const {data,isLoading}=useGetAllTaskQuery();
-  console.log(data)
+  const status = params?.status || "";
+  const { data, isLoading } = useGetAllTaskQuery({
+    strQuery: status,
+    isTrashed: "",
+    search: ""
+
+  });
+
+ 
 
   return isLoading ? (
     <div className='py-10'>
@@ -67,17 +67,17 @@ const {data,isLoading}=useGetAllTaskQuery();
             <TaskTitle label='To Do' className={TASK_TYPE.todo} />
             <TaskTitle
               label='In Progress'
-              className={TASK_TYPE["in progress"]}
+              className={TASK_TYPE.inProgress}
             />
             <TaskTitle label='completed' className={TASK_TYPE.completed} />
           </div>
         )}
 
-        {selected !== 1 ? (
+        {selected !== 1? (
           <BoardView tasks={data?.tasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={data?.tasks} />
+          <Table tasks={data?.tasks}/>
           </div>
         )}
       </Tabs>

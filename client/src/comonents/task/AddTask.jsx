@@ -38,6 +38,7 @@ const AddTask = ({ open, setOpen , task}) => {
   const [createTask,{isLoading}]=useCreateTaskMutation();
   const[updateTask,{isLoading:isUpdating}]=useUpdateTaskMutation();
   const URLS=task.assets?[...task.assets]:[];
+
   const submitHandler = async(data) => {
     for(const file of assets)
       {
