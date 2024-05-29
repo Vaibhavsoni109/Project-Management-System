@@ -28,13 +28,13 @@ const  Table = ({ tasks }) => {
   console.log({tasks})
   const [openDialog, setOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
-  const { deleteTask } = useTrashTaskMutation();
+  const[deleteTask]=useTrashTaskMutation();
   const [openEdit, setOpenEdit] = useState(false);
   const [open, setOpen] = useState(false);
 
   const editTaskHandler = (el) => {
     setSelected(el)
-    setOpenEdit(ture);
+    setOpenEdit(true);
   }
 
   const deleteClicks = (id) => {
@@ -48,6 +48,7 @@ const  Table = ({ tasks }) => {
         id: selected,
         isTrash: 'trash',
       }).unwrap();
+      refetch();
 
     } catch (err) {
       console.log(err);
@@ -169,12 +170,12 @@ const  Table = ({ tasks }) => {
         onClick={deleteHandler}
       />
 
-      {/* <AddTask
+      <AddTask
         open={openEdit}
         setOpen={setOpenEdit}
-        task={selected}
+        task={tasks}
         key={new Date().getTime()}
-      /> */}
+      />
     </>
   );
 };

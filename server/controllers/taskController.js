@@ -228,10 +228,10 @@ export const getTasks = async (req, res) => {
                 path:"team",
                 select:"name title email"
 
-            }).sort({_id:-1})
-
-
-            const tasks=await queryResult;
+              }).sort({_id:-1})
+              
+              const tasks=await queryResult;
+              // console.log(tasks)
 
             res.status(200).json({
                 status:true,

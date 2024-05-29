@@ -74,7 +74,7 @@ const AddTask = ({ open, setOpen , task}) => {
         }, 500);
       } catch (error) {
         console.log(error);
-        toast.error(err?.data?.message|| err.message);
+        toast.error(error?.data?.message|| err.message);
       }
    };
 
