@@ -19,6 +19,7 @@ import Tabs from "../comonents/Tabs";
 import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import Loading from "../comonents/Loader";
 import Button from "../comonents/Button";
+import { useGetSingleTaskQuery, usePostTaskActivityMutation } from "../redux/slices/taskApiSlice";
 
 const assets = [
   "https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -88,10 +89,16 @@ const act_types = [
 
 const TaskDetails = () => {
   const { id } = useParams();
+  const{data,isLoading,refetch}=useGetSingleTaskQuery(id);
 
   const [selected, setSelected] = useState(0);
-  const task = tasks[3];
-
+  const task = data?.task;
+  if (isLoading)
+    return (
+      <div className="py-10">
+        <Loading />
+      </div>
+    );
   return (
     <div className='w-full flex flex-col gap-3 mb-4 overflow-y-hidden'>
       <h1 className='text-2xl text-gray-600 font-bold'>{task?.title}</h1>
@@ -220,7 +227,8 @@ const TaskDetails = () => {
           </>
         ) : (
           <>
-            <Activities activity={task?.activities} id={id} />
+            <Activities activity={data?.task?.activities} id={id} refetch={refetch} />
+
           </>
         )}
       </Tabs>
@@ -228,12 +236,33 @@ const TaskDetails = () => {
   );
 };
 
-const Activities = ({ activity, id }) => {
+const Activities = ({ activity, id, refetch }) => {
   const [selected, setSelected] = useState(act_types[0]);
   const [text, setText] = useState("");
-  const isLoading = false;
+ 
+  const[postActivity,{isLoading}]=usePostTaskActivityMutation();
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+
+    try {
+      const activityData={
+        type:selected?.toLowerCase(),
+        activity:text,
+
+      }
+      const result=await postActivity({
+        data:activityData,
+        id
+      }).unwrap();
+      setText("");
+
+      refetch();
+      console.log(result?.message);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const Card = ({ item }) => {
     return (
@@ -251,7 +280,7 @@ const Activities = ({ activity, id }) => {
           <p className='font-semibold'>{item?.by?.name}</p>
           <div className='text-gray-500 space-y-2'>
             <span className='capitalize'>{item?.type}</span>
-            <span className='text-sm'>{moment(item?.date).fromNow()}</span>
+            <span className='text-sm'>{" "+moment(item?.date).fromNow()}</span>
           </div>
           <div className='text-gray-700'>{item?.activity}</div>
         </div>

@@ -5,12 +5,26 @@ const taskShema = new Schema({
     date: { type: Date, default: new Date() },
     priority: { type: String, enum: ["high", "medium", "normal", "low"], default: "normal" },
     stage: { type: String, enum: ["todo", "in progress", "completed"], default: "todo" },
-    activities: { type: String, enum: ["assigned", "started", "In Progress", "bug", "completed", "commented"], default: "assigned" },
-    activity: {
-        type: String,
-        date: { type: Date, default: new Date() },
-        by: { type: Schema.Types.ObjectId, ref: "User" },
-    },
+    activities: [
+        {
+          type: {
+            type: String,
+            default: "assigned",
+            enum: [
+              "assigned",
+              "started",
+              "in progress",
+              "bug",
+              "completed",
+              "commented",
+            ],
+          },
+          activity: String,
+          date: { type: Date, default: new Date() },
+          by: { type: Schema.Types.ObjectId, ref: "User" },
+        },
+      ],
+  
     subTasks: [{
         title: String,
         date: Date,

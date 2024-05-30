@@ -61,6 +61,7 @@ const NotificationPanel = () => {
 
   const readHandler =async (type,id) => {
     await markAsRead({type,id}).unwrap();
+    
     refetch();
   };
  
@@ -79,6 +80,7 @@ const NotificationPanel = () => {
       href: "#",
       icon: "",
       onClick: () => readHandler("all", " "),
+      
     },
   ];
 
@@ -121,7 +123,7 @@ const NotificationPanel = () => {
                         </div>
 
                         <div
-                        //  className="cursor-pointer"
+                         className="cursor-pointer"
                          onClick={() => viewHandler(item)}
                         >
                           <div className='flex items-center gap-3 font-semibold text-gray-900 capitalize'>
