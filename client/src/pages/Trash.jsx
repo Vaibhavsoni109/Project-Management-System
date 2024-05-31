@@ -32,50 +32,55 @@ const Trash = () => {
   const [deleteRestoreTask] = useDeleteRestoreTaskMutation();
 
 
-  const { data, isLoading } = useGetAllTaskQuery({
-    strQuery: '',
+  const { data, isLoading, refetch } = useGetAllTaskQuery({
+    strQuery: "",
     isTrashed: "true",
     search: ""
 
   });
+
   const deleteRestoreHandler = async () => {
     try {
       let result;
 
       switch (type) {
-
-        case 'delete':
+        case "delete":
           result = await deleteRestoreTask({
-            id: selected, actionType: "delete"
+            id: selected,
+            actionType: "delete",
+          }).unwrap();
+          break;
+        case "deleteAll":
+          result = await deleteRestoreTask({
+            id: selected,
+            actionType: "deleteAll",
           }).unwrap();
           break;
 
-        case 'deleteAll':
+        case "restore":
           result = await deleteRestoreTask({
-            id: selected, actionType: "deleteAll"
+            id: selected,
+            actionType: "restore",
           }).unwrap();
           break;
-
-        case 'restore':
+        case "restoreAll":
           result = await deleteRestoreTask({
-            id: selected, actionType: "restore"
+            id: selected,
+            actionType: "restoreAll",
           }).unwrap();
           break;
-
-        case 'restoreAll':
-          result = await deleteRestoreTask({
-            id: selected, actionType: "restoreAll"
-          }).unwrap();
+        default:
           break;
-
       }
-
+      setOpenDialog(false)
+      refetch();
       console.log(result.message);
 
     } catch (error) {
       console.log(error);
     }
   }
+
   const deleteAllClick = () => {
     setType("deleteAll");
     setMsg("Do you want to permenantly delete all items?");
