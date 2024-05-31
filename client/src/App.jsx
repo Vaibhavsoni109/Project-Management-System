@@ -11,11 +11,10 @@ import Sidebar from './comonents/Sidebar'
 import Navbar from './comonents/Navbar'
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment,  useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { setOpenSidebar } from "./redux/slices/authSlice";
-// import {Toaster} from "sooner"
-import Darkmode from 'darkmode-js';
+
 
 
 function Layout() {
@@ -97,15 +96,7 @@ const MobileSidebar = () => {
 
 
 function App() {
-  useEffect(() => {
-    const darkmode = new Darkmode();
-    darkmode.showWidget();
 
-    // Example of programmatically toggling dark mode after 3 seconds
-    // setTimeout(() => {
-    //   darkmode.toggle();
-    // }, 3000);
-  }, []);
 
   return <main className='w-full min-h-screen bg-[#f3f4f6]'>
     <Routes>   
