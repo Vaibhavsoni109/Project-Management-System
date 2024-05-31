@@ -24,11 +24,10 @@ const [logout]=useLogoutMutation();
       await logout().unwrap();
       
       navigate('/log-in');
-      // console.log(localStorage.userinfo.data.isAdmin);
-      // dispatch(logout());
+     
       localStorage.clear();
     } catch (error) {
-      // toast.err("something went wrong");
+     
       console.log(error)
     }
   };
