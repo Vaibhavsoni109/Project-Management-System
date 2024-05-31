@@ -29,7 +29,7 @@ const [logout]=useLogoutMutation();
       localStorage.clear();
     } catch (error) {
       // toast.err("something went wrong");
-      console.log("error")
+      console.log(error)
     }
   };
 
@@ -40,7 +40,7 @@ const [logout]=useLogoutMutation();
           <div>
             <Menu.Button className='w-10 h-10 2xl:w-12 2xl:h-12 items-center justify-center rounded-full bg-blue-600'>
               <span className='text-white font-semibold'>
-                {getInitials("vaibhav soni")}
+                {getInitials(user?.name)}
               </span>
             </Menu.Button>
           </div>

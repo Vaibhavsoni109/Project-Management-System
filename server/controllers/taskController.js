@@ -12,8 +12,6 @@ export const createTask = async (req, res) => {
 
     const { title, team, stage, date, priority, assets } = req.body;
 
-    // console.log( title, team, stage, date, priority,assets)
-
     let text = "New task has been assigned to you";
     if (team?.length > 1) {
       text = text + ` and ${team?.length - 1} others.`;
@@ -30,7 +28,7 @@ export const createTask = async (req, res) => {
       activity: text,
       by: userid,
     };
-    console.log(activity)
+
     const task = await Task.create({
       title,
       team,
@@ -38,9 +36,8 @@ export const createTask = async (req, res) => {
       priority: priority.toLowerCase(),
       date,
       assets,
-      activities: activity.type,
+      activities: [activity], // Pass activity as an array
     });
-    console.log(task)
 
     await Notice.create({
       team,
@@ -48,17 +45,12 @@ export const createTask = async (req, res) => {
       task: task._id,
     });
 
-    res
-      .status(200)
-      .json({ status: true, task, message: "Task created successfully." });
-
-
+    res.status(200).json({ status: true, task, message: "Task created successfully." });
   } catch (error) {
-    // console.log(error)
     return res.status(400).json({ status: false, message: error.message });
   }
-
 }
+
 
 export const duplicateTask = async (req, res) => {
   try {
@@ -137,7 +129,7 @@ export const postTaskActivity = async (req, res) => {
 export const dashboardStatistics = async (req, res) => {
   try {
 
-    const { userId, isAdmin } = req.user;
+    const { userid, isAdmin } = req.user;
 
     const allTasks = isAdmin
       ? await Task.find({
@@ -150,7 +142,7 @@ export const dashboardStatistics = async (req, res) => {
         .sort({ _id: -1 })
       : await Task.find({
         isTrashed: false,
-        team: { $all: [userId] },
+        team: { $all: [userid] },
       })
         .populate({
           path: "team",
@@ -215,6 +207,7 @@ export const getTasks = async (req, res) => {
   try {
 
     const { stage, isTrashed } = req.query;
+    const { userid, isAdmin } = req.user;
 
     let query = { isTrashed: isTrashed ? true : false };
 
@@ -227,6 +220,7 @@ export const getTasks = async (req, res) => {
       select: "name title email"
 
     }).sort({ _id: -1 })
+    
 
     const tasks = await queryResult;
     // console.log(tasks)
@@ -346,6 +340,7 @@ export const deleteRestoreTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { actionType } = req.query;
+    console.log(actionType,id)
     
 
     if (actionType === "delete") {

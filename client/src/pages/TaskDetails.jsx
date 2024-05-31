@@ -218,7 +218,7 @@ const TaskDetails = () => {
                       key={index}
                       src={el}
                       alt={task?.title}
-                      className='w-full rounded h-28 md:h-36 2xl:h-52 cursor-pointer transition-all duration-700 hover:scale-125 hover:z-50'
+                      className=' rounded h-auto md:h-36 2xl:h-52 cursor-pointer transition-all duration-700 hover:scale-125 hover:z-50'
                     />
                   ))}
                 </div>

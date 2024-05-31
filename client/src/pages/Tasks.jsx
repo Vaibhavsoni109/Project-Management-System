@@ -39,7 +39,7 @@ const Tasks = () => {
     search: ""
 
   });
-  console.log(status)
+
 
  
 
