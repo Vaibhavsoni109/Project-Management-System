@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000; // Added fallback port
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:3000',"https://project-management-system-rosy.vercel.app/",'https://project-management-system-git-master-vaibhavsoni109s-projects.vercel.app/'],
+    origin: ['http://localhost:3000',"https://project-management-system-rosy.vercel.app",'https://project-management-system-git-master-vaibhavsoni109s-projects.vercel.app'],
     methods: ["GET", 'POST', "PUT", "DELETE"],
     credentials: true
 }));
