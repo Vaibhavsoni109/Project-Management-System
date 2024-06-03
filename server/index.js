@@ -23,9 +23,7 @@ const app = express();
 //     credentials: true
 // }));
 const allowedOrigins = [
-    'http://localhost:3000',
-    "https://project-management-system-rosy.vercel.app/",
-    'https://project-management-system-1e0dbicqs-vaibhavsoni109s-projects.vercel.app/'
+   '*',
     // Add this line
   ];
   
