@@ -25,7 +25,8 @@
     "react-toastify": "^10.0.5",
     "recharts": "^2.12.6",
     "sooner": "^1.1.4",
-    "toast": "^0.5.4"
+    "toast": "^0.5.4",
+    "vercel": "^34.2.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
