@@ -156,7 +156,7 @@ const Dashboard = () => {
 
   const stats = [
     {
-      _id: "1",
+      _id: data?.tasks?._id,
       label: "TOTAL TASK",
       total: data?.totalTasks || 0,
       icon: <FaNewspaper />,
@@ -170,14 +170,14 @@ const Dashboard = () => {
       bg: "bg-[#0f766e]",
     },
     {
-      _id: "3",
+      _id: data?.tasks?._id,
       label: "TASK IN PROGRESS",
       total: totals["in progress"] || 0,
       icon: <LuClipboardEdit />,
       bg: "bg-[#f59e0b]",
     },
     {
-      _id: "4",
+      _id: data?.tasks?._id,
       label: "TODOS",
       total: totals["todo"] || 0,
       icon: <FaArrowsToDot />,

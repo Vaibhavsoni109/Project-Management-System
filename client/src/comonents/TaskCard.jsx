@@ -15,6 +15,7 @@ import UserInfo from "./UserInfo";
 import { IoMdAdd } from "react-icons/io";
 import AddSubTask from "./task/AddSubTask";
 
+
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
@@ -24,6 +25,16 @@ const ICONS = {
 const TaskCard = ({ task }) => {
   const { user } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
+  // console.log(user.email)
+  // // console.log(task.team)
+  // // if(user.email in task.team)
+    let index=-1;
+    for (let i = 0; i < task.team.length; i++) {
+     if (task.team[i].email === user.email) {
+       index=i;
+     }
+      
+    }
 
   return (
     <>
@@ -39,7 +50,7 @@ const TaskCard = ({ task }) => {
             <span className='uppercase'>{task?.priority} Priority</span>
           </div>
 
-          {user?.isAdmin && <TaskDialog task={task} />}
+          {user?.isAdmin | index>=0 && <TaskDialog task={task} />}
         </div>
 
         <>
