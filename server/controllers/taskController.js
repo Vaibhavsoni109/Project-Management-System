@@ -100,15 +100,16 @@ export const duplicateTask = async (req, res) => {
 export const postTaskActivity = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId } = req.user;
+    const { userid } = req.user;
     const { type, activity } = req.body;
 
     const task = await Task.findById(id);
+    console.log(userid)
 
     const data = {
       type,
       activity,
-      by: userId,
+      by: userid,
     };
 
     task.activities.push(data);
@@ -213,13 +214,13 @@ export const getTasks = async (req, res) => {
 
     if (stage) {
       query.stage = stage;
-      // console.log(query.stage);
     }
+    console.log(stage);
     let queryResult = Task.find(query).populate({
       path: "team",
       select: "name title email"
 
-    }).sort({ _id: -1 })
+    }).sort({ _id: -1})
     
 
     const tasks = await queryResult;

@@ -20,13 +20,8 @@ import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import Loading from "../comonents/Loader";
 import Button from "../comonents/Button";
 import { useGetSingleTaskQuery, usePostTaskActivityMutation } from "../redux/slices/taskApiSlice";
+import { useSelector } from "react-redux";
 
-const assets = [
-  "https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "https://images.pexels.com/photos/8797307/pexels-photo-8797307.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "https://images.pexels.com/photos/2534523/pexels-photo-2534523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "https://images.pexels.com/photos/804049/pexels-photo-804049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-];
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
@@ -227,7 +222,7 @@ const TaskDetails = () => {
           </>
         ) : (
           <>
-            <Activities activity={data?.task?.activities} id={id} refetch={refetch} />
+            <Activities activity={data?.task?.activities} id={id} refetch={refetch}   />
 
           </>
         )}
@@ -236,9 +231,12 @@ const TaskDetails = () => {
   );
 };
 
-const Activities = ({ activity, id, refetch }) => {
+const Activities = ({ activity, id, refetch}) => {
+   const { user } = useSelector((state) => state.auth);
   const [selected, setSelected] = useState(act_types[0]);
   const [text, setText] = useState("");
+  console.log(name)
+
  
   const[postActivity,{isLoading}]=usePostTaskActivityMutation();
 
